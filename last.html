@@ -206,9 +206,12 @@
         }
 
         .memory-img {
+            display: block;
             width: 100%;
-            height: 250px;
+            height: auto;
+            aspect-ratio: 4 / 5;
             object-fit: cover;
+            object-position: center 20%;
             border-radius: 15px;
             margin-bottom: 1rem;
             transition: transform 0.5s ease;
@@ -420,8 +423,6 @@
                 padding: 1rem 16px;
                 gap: 1.5rem;
             }
-
-            .memory-img { height: auto; aspect-ratio: 4 / 5; }
 
             .final-message { padding: 3rem 16px; }
 
