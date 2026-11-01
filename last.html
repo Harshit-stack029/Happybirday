@@ -371,9 +371,181 @@
             border-radius: 6px;
         }
 
+        /* Photo gallery */
+        .gallery-section { position: relative; z-index: 3; text-align: center; padding: 3rem 16px 0; }
+
+        .section-title {
+            font-family: 'Great Vibes', cursive;
+            font-weight: 400;
+            font-size: 3rem;
+            color: #f9a8d4;
+            text-shadow: 0 0 18px rgba(244, 114, 182, 0.6);
+            margin-bottom: 1.5rem;
+        }
+
+        .gallery {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+        }
+
+        .gallery img {
+            width: min(300px, calc(50% - 7px));
+            aspect-ratio: 4 / 5;
+            object-fit: cover;
+            border-radius: 16px;
+            border: 1px solid rgba(216, 180, 254, 0.25);
+            box-shadow: 0 0 25px rgba(168, 85, 247, 0.15);
+            cursor: pointer;
+            transition: transform 0.4s, box-shadow 0.4s;
+            animation: fadeIn 0.8s ease both;
+        }
+
+        .gallery img:hover { transform: scale(1.03); box-shadow: 0 0 35px rgba(236, 72, 153, 0.4); }
+
+        /* Sealed envelope with the secret photo */
+        .secret { position: relative; z-index: 3; text-align: center; padding: 4rem 16px 1rem; }
+
+        .secret-hint { font-family: 'Great Vibes', cursive; font-size: 2.4rem; color: #d8b4fe; text-shadow: 0 0 16px rgba(192, 132, 252, 0.7); margin-bottom: 2.5rem; }
+
+        .envelope {
+            position: relative;
+            width: min(320px, 82vw);
+            aspect-ratio: 3 / 2;
+            margin: 7rem auto 0;
+            perspective: 900px;
+            cursor: pointer;
+            animation: envFloat 3s ease-in-out infinite;
+            outline: none;
+        }
+
+        @keyframes envFloat { 50% { transform: translateY(-8px); } }
+
+        .envelope.open { animation: none; }
+
+        .env-back, .env-front, .env-flap { position: absolute; inset: 0; border-radius: 10px; }
+
+        .env-back { background: linear-gradient(160deg, #4c1d95, #2e1065); box-shadow: 0 0 45px rgba(168, 85, 247, 0.45); }
+
+        .env-photo {
+            position: absolute;
+            left: 8%;
+            right: 8%;
+            top: 8%;
+            height: 84%;
+            border-radius: 8px;
+            overflow: hidden;
+            background: #f3e8ff;
+            border: 4px solid #fdf4ff;
+            transition: transform 0.9s cubic-bezier(.2, .8, .2, 1) 0.5s;
+            z-index: 1;
+        }
+
+        .env-photo img { width: 100%; height: 100%; object-fit: cover; }
+
+        .envelope.open .env-photo { transform: translateY(-62%); }
+
+        .env-front {
+            background: linear-gradient(200deg, #7c3aed, #5b21b6);
+            clip-path: polygon(0 0, 50% 52%, 100% 0, 100% 100%, 0 100%);
+            z-index: 2;
+        }
+
+        .env-flap {
+            background: linear-gradient(180deg, #a855f7, #6d28d9);
+            clip-path: polygon(0 0, 100% 0, 50% 58%);
+            transform-origin: top center;
+            transition: transform 0.6s ease, z-index 0s 0.3s;
+            z-index: 3;
+        }
+
+        .envelope.open .env-flap { transform: rotateX(180deg); z-index: 0; }
+
+        .seal {
+            position: absolute;
+            left: 50%;
+            top: 52%;
+            transform: translate(-50%, -50%);
+            width: 58px;
+            height: 58px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #f472b6, #be185d);
+            box-shadow: 0 0 20px rgba(236, 72, 153, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            z-index: 4;
+            transition: transform 0.4s, opacity 0.4s;
+            animation: sealPulse 1.6s ease-in-out infinite;
+        }
+
+        @keyframes sealPulse { 50% { box-shadow: 0 0 34px rgba(236, 72, 153, 1); } }
+
+        .envelope.open .seal { opacity: 0; transform: translate(-50%, -50%) scale(1.8); }
+
+        .secret-tap { margin-top: 1.4rem; color: #f9a8d4; font-size: 1rem; animation: pulseText 1.6s ease-in-out infinite; }
+
+        @keyframes pulseText { 50% { opacity: 0.5; } }
+
+        /* Full-screen photo viewer */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            z-index: 50;
+            background: rgba(0, 0, 0, 0.92);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 1.2rem;
+            padding: 16px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+
+        .lightbox.show { opacity: 1; pointer-events: auto; }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 72vh;
+            border-radius: 16px;
+            border: 3px solid rgba(240, 171, 252, 0.6);
+            box-shadow: 0 0 60px rgba(236, 72, 153, 0.5);
+            transform: scale(0.9);
+            transition: transform 0.6s cubic-bezier(.2, .8, .2, 1);
+        }
+
+        .lightbox.show img { transform: scale(1); }
+
+        .lightbox p {
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.6rem;
+            text-align: center;
+            line-height: 1.2;
+            color: #f9a8d4;
+            text-shadow: 0 0 18px rgba(244, 114, 182, 0.8);
+        }
+
+        .lightbox p .name { font-size: 0.55em; margin-top: 0.4em; color: #f9a8d4; }
+
+        .lightbox small { color: #c4a7e7; font-size: 0.85rem; }
+
+        .burst { position: fixed; pointer-events: none; z-index: 60; font-size: 1.5rem; }
+
         /* Responsive Design */
         @media (max-width: 768px) {
             .welcome { padding: 3rem 16px 1.5rem; }
+
+            .section-title { font-size: 2.4rem; }
+
+            .secret-hint { font-size: 2rem; }
+
+            .lightbox p { font-size: 2.1rem; }
 
             .welcome h1 {
                 font-size: 2.8rem;
@@ -439,6 +611,29 @@
 
     </div>
 
+    <section class="gallery-section" id="gallery-section" style="display:none">
+        <h2 class="section-title">More Moments I Treasure 📸</h2>
+        <div class="gallery" id="gallery"></div>
+    </section>
+
+    <section class="secret">
+        <p class="secret-hint">A secret, just for you… 💌</p>
+        <div class="envelope" id="envelope" role="button" tabindex="0" aria-label="Open the sealed envelope">
+            <div class="env-back"></div>
+            <div class="env-photo"><img src="photos/proposal.jpg" alt="A special photo for you"></div>
+            <div class="env-front"></div>
+            <div class="env-flap"></div>
+            <div class="seal">💜</div>
+        </div>
+        <p class="secret-tap" id="secret-tap">Tap the seal to open</p>
+    </section>
+
+    <div class="lightbox" id="lightbox">
+        <img id="lb-img" alt="">
+        <p id="lb-cap"></p>
+        <small>Tap anywhere to close</small>
+    </div>
+
     <section class="final-message">
         <h2>Thank You for the Memories</h2>
         <p>Every laugh, every chat, and every moment we’ve shared has been truly special.💫<br>
@@ -448,6 +643,70 @@
         <p class="from-harshii">With a full heart, from Harshii 💜🪻</p>
         <a href="tree.html" class="goodbye-btn">One Last Surprise For You 🌳💝</a>
     </section>
+    <script>
+        // Gallery: shows photos/1.jpg, photos/2.jpg, ... (up to 20) for whichever files exist
+        const gallery = document.getElementById('gallery');
+        const lightbox = document.getElementById('lightbox');
+        const lbImg = document.getElementById('lb-img');
+        const lbCap = document.getElementById('lb-cap');
+
+        function openLightbox(src, caption) {
+            lbImg.src = src;
+            lbCap.innerHTML = caption || '';
+            lbCap.style.display = caption ? '' : 'none';
+            lightbox.classList.add('show');
+        }
+        lightbox.addEventListener('click', () => lightbox.classList.remove('show'));
+
+        for (let i = 1; i <= 20; i++) {
+            ['jpg', 'jpeg', 'png'].forEach((ext) => {
+                const img = new Image();
+                img.onload = () => {
+                    img.style.order = i;
+                    img.alt = 'Memory ' + i;
+                    img.addEventListener('click', () => openLightbox(img.src));
+                    gallery.appendChild(img);
+                    document.getElementById('gallery-section').style.display = '';
+                };
+                img.src = `photos/${i}.${ext}`;
+            });
+        }
+
+        // Sealed envelope -> proposal photo
+        const envelope = document.getElementById('envelope');
+        const PROPOSAL_CAPTION = 'Will you be mine,<span class="name">KATHYAYINI 💜</span>';
+
+        function hearts(x, y, n) {
+            const set = ['💜', '💖', '🌸', '✨', '💕'];
+            for (let i = 0; i < n; i++) {
+                const h = document.createElement('div');
+                h.className = 'burst';
+                h.textContent = set[i % set.length];
+                h.style.left = x + 'px';
+                h.style.top = y + 'px';
+                document.body.appendChild(h);
+                const a = Math.random() * Math.PI * 2, d = 90 + Math.random() * 200;
+                h.animate([
+                    { transform: 'translate(-50%, -50%) scale(0.4)', opacity: 1 },
+                    { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d}px)) scale(1.3)`, opacity: 0 }
+                ], { duration: 1500 + Math.random() * 800, easing: 'cubic-bezier(.2,.8,.2,1)' }).onfinish = () => h.remove();
+            }
+        }
+
+        function openEnvelope() {
+            const r = envelope.getBoundingClientRect();
+            if (!envelope.classList.contains('open')) {
+                envelope.classList.add('open');
+                document.getElementById('secret-tap').textContent = 'Tap the photo to see it again 💜';
+                hearts(r.left + r.width / 2, r.top + r.height / 2, 36);
+                setTimeout(() => openLightbox('photos/proposal.jpg', PROPOSAL_CAPTION), 1600);
+            } else {
+                openLightbox('photos/proposal.jpg', PROPOSAL_CAPTION);
+            }
+        }
+        envelope.addEventListener('click', openEnvelope);
+        envelope.addEventListener('keydown', (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openEnvelope(); } });
+    </script>
     <script src="stars.js"></script>
 </body>
 

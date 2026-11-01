@@ -386,8 +386,9 @@
 
         // --- send the answer to Harshii ---
         $('send').addEventListener('click', () => {
-            const text = `Yes Harshii! 💜 I'll come to the birthday dinner with you on Wednesday, 4 November at ${chosen} at ${place} 🥂🪻`;
-            window.location.href = 'https://wa.me/' + HARSHII_WHATSAPP + '?text=' + encodeURIComponent(text);
+            const text = `Yes Harshii! 💜 I'll come to the birthday dinner with you on Wednesday, 4 November at ${chosen} at ${place} 🥂🌸`;
+            // api.whatsapp.com keeps emojis intact; the wa.me redirect turns them into �
+            window.location.href = 'https://api.whatsapp.com/send?phone=' + HARSHII_WHATSAPP + '&text=' + encodeURIComponent(text);
         });
 
         render();
