@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Our Beautiful Memories ✨</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;500;600&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Great+Vibes&family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;500;600&display=swap');
 
         * {
             margin: 0;
@@ -16,17 +16,12 @@
 
         body {
             min-height: 100vh;
-            background: linear-gradient(135deg,
-                    #ffd1dc 0%,
-                    #e6e6fa 25%,
-                    #ffefd5 50%,
-                    #e6e6fa 75%,
-                    #ffd1dc 100%);
-            background-size: 400% 400%;
-            animation: gradientFlow 15s ease infinite;
+            background: radial-gradient(ellipse at 50% 0%, #241433 0%, #0d0814 50%, #000 100%);
+            background-color: #000;
+            background-attachment: fixed;
             font-family: 'Quicksand', sans-serif;
             overflow-x: hidden;
-            color: #4a4a4a;
+            color: #f3e8ff;
         }
 
         @keyframes gradientFlow {
@@ -88,7 +83,7 @@
             background-image: radial-gradient(circle, white 1px, transparent 1px);
             background-size: 50px 50px;
             animation: sparkleLayer 8s linear infinite;
-            opacity: 0.5;
+            opacity: 0.18;
         }
 
         .magic-sparkles::after {
@@ -142,10 +137,16 @@
         }
 
         .welcome h1 {
-            font-family: 'Dancing Script', cursive;
-            font-size: 4rem;
-            color: #ff69b4;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+            font-family: 'Great Vibes', cursive;
+            font-weight: 400;
+            font-size: 4.5rem;
+            line-height: 1.2;
+            background: linear-gradient(90deg, #ff7eb6, #e9a8ff, #b794f6, #ff7eb6);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 16px rgba(232, 121, 249, 0.4));
             animation: fadeInScale 2s ease;
         }
 
@@ -170,10 +171,12 @@
         }
 
         .memory-card {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(216, 180, 254, 0.22);
+            backdrop-filter: blur(8px);
             border-radius: 20px;
             padding: 1.5rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 30px rgba(168, 85, 247, 0.12);
             transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
@@ -181,7 +184,8 @@
 
         .memory-card:hover {
             transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 0 45px rgba(236, 72, 153, 0.35);
+            border-color: rgba(244, 114, 182, 0.6);
         }
 
         .memory-card::before {
@@ -191,7 +195,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.12), transparent);
             transform: translateX(-100%);
             transition: 0.5s;
         }
@@ -215,22 +219,23 @@
 
         .memory-date {
             font-family: 'Dancing Script', cursive;
-            color: #ff69b4;
-            font-size: 1.3rem;
+            color: #f9a8d4;
+            font-size: 1.5rem;
             margin-bottom: 0.5rem;
         }
 
         .memory-caption {
             font-size: 1rem;
             line-height: 1.5;
-            color: #666;
+            color: #e9d5ff;
         }
 
         /* Final Message Section */
         .final-message {
             text-align: center;
             padding: 4rem 2rem;
-            background: rgba(255, 255, 255, 0.3);
+            background: rgba(255, 255, 255, 0.04);
+            border-top: 1px solid rgba(216, 180, 254, 0.2);
             backdrop-filter: blur(10px);
             margin-top: 3rem;
             position: relative;
@@ -240,7 +245,8 @@
         .final-message h2 {
             font-family: 'Dancing Script', cursive;
             font-size: 3rem;
-            color: #ff69b4;
+            color: #f9a8d4;
+            text-shadow: 0 0 20px rgba(244, 114, 182, 0.6);
             margin-bottom: 2rem;
             animation: heartbeat 2s infinite;
         }
@@ -264,24 +270,31 @@
             line-height: 1.8;
         }
 
+        .from-harshii {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem !important;
+            color: #d8b4fe;
+            text-shadow: 0 0 14px rgba(192, 132, 252, 0.6);
+        }
+
         .goodbye-btn {
             display: inline-block;
             padding: 1rem 2rem;
             font-size: 1.2rem;
-            background: linear-gradient(45deg, #ff69b4, #da70d6);
+            background: linear-gradient(45deg, #ec4899, #a855f7);
             color: white;
             border: none;
             border-radius: 50px;
             cursor: pointer;
             text-decoration: none;
             transition: all 0.3s ease;
-            box-shadow: 0 5px 15px rgba(255, 105, 180, 0.4);
+            box-shadow: 0 0 25px rgba(192, 132, 252, 0.55);
             animation: float 3s infinite ease-in-out;
         }
 
         .goodbye-btn:hover {
             transform: translateY(-5px);
-            box-shadow: 0 8px 20px rgba(255, 105, 180, 0.6);
+            box-shadow: 0 0 40px rgba(236, 72, 153, 0.8);
         }
 
         @keyframes float {
@@ -295,6 +308,22 @@
                 transform: translateY(-10px);
             }
         }
+
+        .name {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 0.5em;
+            letter-spacing: 0.14em;
+            line-height: 1.4;
+            margin-top: 0.25em;
+        }
+
+        @keyframes shimmer {
+            to { background-position: 300% 0; }
+        }
+
+        .welcome h1 { animation: fadeInScale 2s ease, shimmer 6s linear 2s infinite; }
 
         /* Animations */
         @keyframes fadeInScale {
@@ -334,23 +363,37 @@
         }
 
         ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.4);
+            background: #0d0814;
         }
 
         ::-webkit-scrollbar-thumb {
-            background: linear-gradient(45deg, #ff69b4, #da70d6);
+            background: linear-gradient(45deg, #ec4899, #a855f7);
             border-radius: 6px;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
+            .welcome { padding: 3rem 16px 1.5rem; }
+
             .welcome h1 {
-                font-size: 3rem;
+                font-size: 2.8rem;
             }
+
+            .welcome p { font-size: 1rem; }
 
             .memory-container {
                 grid-template-columns: 1fr;
+                padding: 1rem 16px;
+                gap: 1.5rem;
             }
+
+            .memory-img { height: auto; aspect-ratio: 4 / 5; }
+
+            .final-message { padding: 3rem 16px; }
+
+            .final-message p { font-size: 1rem; }
+
+            .goodbye-btn { font-size: 1rem; padding: 0.9rem 1.6rem; }
 
             .final-message h2 {
                 font-size: 2.5rem;
@@ -365,13 +408,14 @@
         <!-- Hearts will be generated via CSS -->
         <div class="heart" style="--float-duration: 6s; --delay: 0s; --translate-x: 20px;">💝</div>
         <div class="heart" style="--float-duration: 8s; --delay: 1s; --translate-x: -30px;">💖</div>
-        <div class="heart" style="--float-duration: 7s; --delay: 2s; --translate-x: 40px;">💗</div>
+        <div class="heart" style="--float-duration: 7s; --delay: 2s; --translate-x: 40px;">🪻</div>
         <div class="heart" style="--float-duration: 9s; --delay: 3s; --translate-x: -20px;">💓</div>
         <div class="heart" style="--float-duration: 5s; --delay: 4s; --translate-x: 30px;">💕</div>
+        <div class="heart" style="--float-duration: 10s; --delay: 2.5s; --translate-x: -40px;">🪻</div>
     </div>
 
     <section class="welcome">
-        <h1>Our Beautiful Moments Together</h1>
+        <h1>My Favourite Memories With You <span class="name">KATHYAYINI 🪻</span></h1>
         <p>Every moment spent with you has been magical. Let's cherish these precious memories ...</p>
     </section>
 
@@ -379,12 +423,11 @@
         <div class="memory-card">
             <img src="./d1.jpg" alt="First Date" class="memory-img">
             <div class="memory-date">Her Smile Says It All</div>
-            <div class="memory-caption">You’re truly one of the sweetest girls I know, and I feel lucky to have a sis
-                like you.❤️</div>
+            <div class="memory-caption">You’re the sweetest girl I know, KATHYAYINI, and knowing you makes every day brighter.💜</div>
         </div>
         <div class="memory-card">
             <img src="./d2.jpg" alt="Beach Day" class="memory-img">
-            <div class="memory-date">Together Vibes</div>
+            <div class="memory-date">Lavender Soul</div>
             <div class="memory-caption">May your journey ahead be filled with happiness, success, and endless
                 smiles.😊💕</div>
         </div>
@@ -399,11 +442,13 @@
     <section class="final-message">
         <h2>Thank You for the Memories</h2>
         <p>Every laugh, every chat, and every moment we’ve shared has been truly special.💫<br>
-            I’m so grateful for the bond we have, and for the positivity you always bring into my life.<br>
+            I’m so grateful for every moment with you, and for the positivity you always bring into my life.<br>
             On your birthday, I just wish for endless happiness, love, and success to come your way.🌸</p>
         <p>You deserve all the joy in the world—keep shining and spreading your beautiful energy.✨</p>
-        <a href="#" class="goodbye-btn">Until We Meet Again 💝</a>
+        <p class="from-harshii">With a full heart, from Harshii 💜🪻</p>
+        <a href="tree.html" class="goodbye-btn">One Last Surprise For You 🌳💝</a>
     </section>
+    <script src="stars.js"></script>
 </body>
 
 </html>

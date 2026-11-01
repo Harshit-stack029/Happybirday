@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&family=Comic+Neue:wght@700&family=Quicksand:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Great+Vibes&family=Comic+Neue:wght@700&family=Quicksand:wght@500;600&display=swap');
 
 * {
     margin: 0;
@@ -9,12 +9,19 @@
 
 body {
     min-height: 100vh;
-    background: linear-gradient(-45deg, #ffe6e6, #e6e6ff, #ffebf5);
-    background-size: 400% 400%;
-    animation: gradientBG 15s ease infinite;
+    background: radial-gradient(ellipse at 50% 0%, #241433 0%, #0d0814 50%, #000 100%);
+    background-color: #000;
+    background-attachment: fixed;
+    color: #f3e8ff;
     font-family: 'Quicksand', sans-serif;
     overflow-x: hidden;
     padding: 2rem;
+}
+
+@media (max-width: 768px) {
+    body { padding: 1.5rem 16px; }
+    .shuffle-button { font-size: 1.05rem; }
+    .ending-text { font-size: 2rem; }
 }
 
 .custom-cursor {
@@ -23,14 +30,13 @@ body {
     position: fixed;
     pointer-events: none;
     z-index: 9999;
-    mix-blend-mode: difference;
     transition: transform 0.1s;
 }
 
 .custom-cursor svg {
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 0 5px rgba(255, 182, 193, 0.5));
+    filter: drop-shadow(0 0 8px rgba(244, 114, 182, 0.9));
 }
 
 .container {
@@ -42,20 +48,28 @@ body {
 }
 
 h1 {
-    font-family: 'Bubblegum Sans', cursive;
-    font-size: 3rem;
-    color: #ff69b4;
-    text-shadow: 2px 2px 4px rgba(255, 105, 180, 0.3);
+    font-family: 'Great Vibes', cursive;
+    font-weight: 400;
+    font-size: 4.2rem;
+    line-height: 1.2;
+    background: linear-gradient(90deg, #ff7eb6, #e9a8ff, #b794f6, #ff7eb6);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    filter: drop-shadow(0 0 16px rgba(232, 121, 249, 0.4));
     margin-bottom: 2rem;
-    animation: bounce 1s ease infinite;
+    animation: bounce 3s ease-in-out infinite, shimmer 6s linear infinite;
 }
 
 .reason-card {
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(216, 180, 254, 0.25);
+    backdrop-filter: blur(8px);
     border-radius: 20px;
     padding: 2rem;
     margin: 1.5rem;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 30px rgba(168, 85, 247, 0.12), inset 0 0 20px rgba(255, 255, 255, 0.03);
     transition: transform 0.3s, box-shadow 0.3s;
     cursor: pointer;
     position: relative;
@@ -64,7 +78,8 @@ h1 {
 
 .reason-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(255, 105, 180, 0.2);
+    box-shadow: 0 0 40px rgba(236, 72, 153, 0.35);
+    border-color: rgba(244, 114, 182, 0.6);
 }
 
 .reason-text {
@@ -80,7 +95,7 @@ h1 {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 255, 255, 0.95);
+    background: rgba(10, 6, 16, 0.95);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -94,7 +109,7 @@ h1 {
 }
 
 .shuffle-button {
-    background: linear-gradient(45deg, #ff69b4, #ff99cc);
+    background: linear-gradient(45deg, #ec4899, #a855f7);
     border: none;
     border-radius: 50px;
     padding: 1rem 2rem;
@@ -104,7 +119,7 @@ h1 {
     cursor: pointer;
     transition: transform 0.3s;
     font-family: 'Comic Neue', cursive;
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 0 25px rgba(192, 132, 252, 0.5);
 }
 
 .shuffle-button:hover {
@@ -124,9 +139,9 @@ h1 {
 }
 
 .ending-text {
-    font-family: 'Bubblegum Sans', cursive;
-    font-size: 2rem;
-    color: #ff69b4;
+    font-family: 'Great Vibes', cursive;
+    font-size: 2.6rem;
+    color: #f9a8d4;
     margin-bottom: 2rem;
     opacity: 0;
     transform: translateY(20px);
@@ -155,12 +170,12 @@ h1 {
 }
 
 @media (max-width: 768px) {
-    h1 { font-size: 2rem; }
-    .reason-card { margin: 1rem; }
+    h1 { font-size: 2.8rem; }
+    .reason-card { margin: 1rem 0; }
     .reason-text { font-size: 1rem; }
 }
 .shuffle-button {
-    background: linear-gradient(45deg, #ff69b4, #ff99cc);
+    background: linear-gradient(45deg, #ec4899, #a855f7);
     border: none;
     border-radius: 50px;
     padding: 1rem 2rem;
@@ -170,11 +185,12 @@ h1 {
     cursor: pointer;
     transition: all 0.3s;
     font-family: 'Comic Neue', cursive;
-    box-shadow: 0 5px 15px rgba(255, 105, 180, 0.3);
+    box-shadow: 0 0 25px rgba(192, 132, 252, 0.5);
 }
 
 .shuffle-button.story-mode {
-    background: linear-gradient(45deg, #9b6dff, #ff6dc7);
+    background: linear-gradient(45deg, #7c3aed, #ec4899);
+    box-shadow: 0 0 30px rgba(236, 72, 153, 0.6);
     transform: scale(1.1);
 }
 
@@ -188,7 +204,31 @@ h1 {
 
 .reason-counter {
     font-size: 0.9rem;
-    color: #ff69b4;
+    color: #d8b4fe;
     margin-top: 1rem;
     opacity: 0.7;
+}
+.name {
+    display: block;
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 0.5em;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    margin-top: 0.25em;
+}
+
+@keyframes shimmer {
+    to { background-position: 300% 0; }
+}
+
+.ending-text { text-shadow: 0 0 20px rgba(244, 114, 182, 0.6); }
+.teddy-hug img { width: 100%; border-radius: 16px; }
+
+@media (hover: none) {
+    .reason-card:hover { transform: none; }
+    .gif-overlay { position: static; opacity: 1; background: none; margin-top: 0.5rem; }
+    .gif-overlay img { max-height: 160px; max-width: 100%; border-radius: 12px; }
+    .custom-cursor { display: none; }
+    * { cursor: auto; }
 }

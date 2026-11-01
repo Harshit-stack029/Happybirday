@@ -1,7 +1,7 @@
  // Reasons database
  const reasons = [
     { 
-        text: "You’re such a kind and wonderful person, and I feel lucky to share such a good bond with you. 💖", 
+        text: "You’re such a kind and wonderful person, and I feel so lucky to know you. 💖", 
         emoji: "🌟",
         gif: "gif1.gif"
     },
@@ -16,7 +16,7 @@
         gif: "gif1.gif"
     },
     { 
-        text: "Stay the amazing girl you are—always spreading positivity around. Have the happiest year ahead! 🥳 ", 
+        text: "Stay the amazing girl you are, KATHYAYINI—always spreading positivity around. Have the happiest year ahead! 🥳 ", 
         emoji: "🌟",
         gif: "gif2.gif"
     }
@@ -117,7 +117,7 @@ shuffleButton.addEventListener('click', () => {
 
 // Floating elements function (same as before)
 function createFloatingElement() {
-    const elements = ['🌸', '✨', '💖', '🦋', '⭐'];
+    const elements = ['🪻', '✨', '💖', '🦋', '💜', '🪻'];
     const element = document.createElement('div');
     element.className = 'floating';
     element.textContent = elements[Math.floor(Math.random() * elements.length)];

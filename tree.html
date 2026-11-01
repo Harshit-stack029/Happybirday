@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Little Tree For KATHYAYINI 🌳💜</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@600&family=Great+Vibes&family=Dancing+Script:wght@700&family=Quicksand:wght@500;600&display=swap');
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            min-height: 100vh;
+            overflow: hidden;
+            background: radial-gradient(ellipse at 50% 0%, #241433 0%, #0d0814 50%, #000 100%);
+            background-color: #000;
+            font-family: 'Quicksand', sans-serif;
+            color: #f3e8ff;
+        }
+
+        canvas { position: fixed; inset: 0; display: block; z-index: 1; }
+
+        .hint {
+            position: fixed;
+            left: 50%;
+            bottom: 18%;
+            transform: translateX(-50%);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.7rem;
+            color: #f9a8d4;
+            text-shadow: 0 0 14px rgba(244, 114, 182, 0.8);
+            animation: pulse 1.6s ease-in-out infinite;
+            transition: opacity 0.8s;
+            z-index: 2;
+            text-align: center;
+            pointer-events: none;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.55; transform: translateX(-50%) scale(1); }
+            50% { opacity: 1; transform: translateX(-50%) scale(1.06); }
+        }
+
+        .letter {
+            position: fixed;
+            right: 6vw;
+            top: 50%;
+            transform: translateY(-50%);
+            width: min(440px, 40vw);
+            z-index: 2;
+            opacity: 0;
+            transition: opacity 1.2s;
+            max-height: 92vh;
+            overflow-y: auto;
+        }
+
+        .letter.show { opacity: 1; }
+
+        .letter h1 {
+            font-family: 'Great Vibes', cursive;
+            font-weight: 400;
+            font-size: 3.6rem;
+            line-height: 1.15;
+            margin-bottom: 1.2rem;
+            background: linear-gradient(90deg, #ff7eb6, #e9a8ff, #b794f6, #ff7eb6);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            filter: drop-shadow(0 0 16px rgba(232, 121, 249, 0.45));
+            animation: shimmer 6s linear infinite;
+        }
+
+        .letter .body {
+            font-size: 1.15rem;
+            line-height: 1.85;
+            white-space: pre-wrap;
+            min-height: 12em;
+        }
+
+        .letter .caret {
+            display: inline-block;
+            width: 2px;
+            height: 1.1em;
+            background: #f0abfc;
+            vertical-align: -0.2em;
+            animation: blink 0.9s steps(1) infinite;
+        }
+
+        @keyframes blink { 50% { opacity: 0; } }
+
+        .name {
+            display: block;
+            font-family: 'Cinzel', serif;
+            font-weight: 600;
+            font-size: 0.5em;
+            letter-spacing: 0.14em;
+            line-height: 1.4;
+            margin-top: 0.25em;
+        }
+
+        @keyframes shimmer { to { background-position: 300% 0; } }
+
+        .together {
+            margin-top: 1.4rem;
+            font-family: 'Great Vibes', cursive;
+            font-size: 2.2rem;
+            color: #d8b4fe;
+            text-shadow: 0 0 14px rgba(192, 132, 252, 0.7);
+            opacity: 0;
+            transition: opacity 1.5s;
+        }
+
+        .together.show { opacity: 1; }
+
+        .more {
+            display: inline-block;
+            margin-top: 1.2rem;
+            padding: 0.9rem 1.8rem;
+            border-radius: 999px;
+            background: linear-gradient(45deg, #ec4899, #a855f7);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            box-shadow: 0 0 25px rgba(192, 132, 252, 0.6);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 1.2s;
+            animation: moreGlow 2s ease-in-out infinite;
+        }
+
+        .more.show { opacity: 1; pointer-events: auto; }
+
+        @keyframes moreGlow { 50% { box-shadow: 0 0 40px rgba(236, 72, 153, 0.9); } }
+
+        @media (max-width: 800px) {
+            .letter {
+                right: auto;
+                left: 50%;
+                top: 60%;
+                bottom: 0;
+                transform: translateX(-50%);
+                width: calc(100vw - 32px);
+                text-align: center;
+                overflow-y: auto;
+                padding-bottom: 1.5rem;
+                -webkit-mask-image: linear-gradient(transparent 0, #000 12px, #000 calc(100% - 24px), transparent 100%);
+                mask-image: linear-gradient(transparent 0, #000 12px, #000 calc(100% - 24px), transparent 100%);
+            }
+            .letter h1 { font-size: 2.4rem; margin: 0.4rem 0 0.4rem; }
+            .letter .body { font-size: 0.95rem; line-height: 1.6; min-height: 0; }
+            .together { font-size: 1.7rem; margin-top: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="c"></canvas>
+    <div class="hint" id="hint">Tap the little heart 💗</div>
+
+    <div class="letter" id="letter">
+        <h1>Happy Birthday <span class="name">KATHYAYINI M S</span></h1>
+        <div class="body"><span id="typed"></span><span class="caret"></span></div>
+        <div class="together" id="together">With a full heart,<br>Harshii 💜🪻</div>
+        <a href="invite.html" class="more" id="more">One more thing… 💌</a>
+    </div>
+
+    <script>
+        const message =
+`Dear KATHYAYINI,
+
+Like this little tree, what I feel for you started as a tiny seed and quietly grew a little more every single day.
+
+Every heart on it is a smile you gave me, a moment you made brighter, a reason I'm grateful you exist.
+
+I planted lavender all around it too, because I know you love them, and you deserve every flower you love.
+
+I've given you my heart, KATHYAYINI. All I'm hoping for is that one day you'll accept it, and let me love you the way you truly deserve.
+
+Will you let me? 💜`;
+
+        const canvas = document.getElementById('c');
+        const ctx = canvas.getContext('2d');
+        let W, H, dpr, mobile;
+
+        function resize() {
+            if (typeof buildLavender === 'function') setTimeout(buildLavender);
+            dpr = window.devicePixelRatio || 1;
+            W = window.innerWidth;
+            H = window.innerHeight;
+            mobile = W <= 800;
+            canvas.width = W * dpr;
+            canvas.height = H * dpr;
+            canvas.style.width = W + 'px';
+            canvas.style.height = H + 'px';
+            ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+        }
+        resize();
+
+        // Tree geometry is built once in a 1000x1000 "world" and scaled to the screen
+        const rand = (a, b) => a + Math.random() * (b - a);
+        const palette = ['#ff4d6d', '#ff758f', '#ff8fab', '#e0457b', '#ffb3c6', '#c9184a', '#b497d6', '#9d7cc9', '#c8a2e8', '#e0c3fc'];
+
+        // Heart curve; t in [0, 2PI]. Returns roughly x in [-16,16], y in [-17,12]
+        function heartXY(t) {
+            return {
+                x: 16 * Math.pow(Math.sin(t), 3),
+                y: -(13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t))
+            };
+        }
+
+        function insideHeart(x, y) {
+            // implicit heart: (x^2 + y^2 - 1)^3 - x^2 y^3 <= 0, with y up
+            const a = x * x + y * y - 1;
+            return a * a * a - x * x * y * y * y <= 0;
+        }
+
+        function drawHeart(x, y, size, color, rot = 0, alpha = 1) {
+            ctx.save();
+            ctx.translate(x, y);
+            ctx.rotate(rot);
+            ctx.scale(size / 32, size / 32);
+            ctx.globalAlpha = alpha;
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            for (let i = 0; i <= 40; i++) {
+                const p = heartXY((i / 40) * Math.PI * 2);
+                i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y);
+            }
+            ctx.closePath();
+            ctx.fill();
+            ctx.restore();
+        }
+
+        // Leaves fill a big heart-shaped canopy; branches are kept inside it
+        const leaves = [];
+        const canopy = { x: 500, y: 430, r: 330 };
+        function inCanopy(x, y, shrink) {
+            return insideHeart((x - canopy.x) / (canopy.r * 0.9 * shrink), (canopy.y - y) / (canopy.r * 0.75 * shrink));
+        }
+
+        // Branches: recursive, each with a start time so they grow in order
+        const branches = [];
+        function grow(x, y, angle, len, width, depth, t0) {
+            const x2 = x + Math.cos(angle) * len;
+            const y2 = y + Math.sin(angle) * len;
+            const cx = (x + x2) / 2 + rand(-len, len) * 0.08;
+            const cy = (y + y2) / 2 + rand(-len, len) * 0.08;
+            const dur = 30 + len * 0.5;
+            branches.push({ x, y, cx, cy, x2, y2, width, t0, dur });
+            if (depth <= 0) return;
+            const n = depth >= 4 ? 2 : (Math.random() < 0.4 ? 3 : 2);
+            for (let i = 0; i < n; i++) {
+                // try a few directions; only keep twigs that end inside the canopy and point upward-ish
+                for (let attempt = 0; attempt < 8; attempt++) {
+                    let a = angle + (i - (n - 1) / 2) * 0.6 + rand(-0.25, 0.25);
+                    a = Math.min(-0.2, Math.max(-Math.PI + 0.2, a));
+                    const l = len * rand(0.72, 0.86);
+                    if (inCanopy(x2 + Math.cos(a) * l, y2 + Math.sin(a) * l, 0.82)) {
+                        grow(x2, y2, a, l, width * 0.66, depth - 1, t0 + dur);
+                        break;
+                    }
+                }
+            }
+        }
+        // one sturdy trunk from the ground up to just under the canopy, then three main limbs
+        const trunkTop = { x: 500 + rand(-8, 8), y: 690 };
+        branches.push({ x: 500, y: 1000, cx: 500 + rand(-14, 14), cy: 850, x2: trunkTop.x, y2: trunkTop.y, width: 30, t0: 0, dur: 110 });
+        [-0.65, 0, 0.65].forEach((off) => {
+            grow(trunkTop.x, trunkTop.y, -Math.PI / 2 + off + rand(-0.08, 0.08), off === 0 ? 170 : 150, off === 0 ? 20 : 17, 5, 110);
+        });
+        const treeDone = Math.max(...branches.map(b => b.t0 + b.dur));
+
+        while (leaves.length < 900) {
+            const ux = rand(-1.3, 1.3), uy = rand(-1.2, 1.4);
+            if (!insideHeart(ux, uy)) continue;
+            leaves.push({
+                x: canopy.x + ux * canopy.r * 0.9,
+                y: canopy.y - uy * canopy.r * 0.75,
+                size: rand(14, 30),
+                color: palette[(Math.random() * palette.length) | 0],
+                rot: rand(-0.6, 0.6),
+                t0: treeDone - 40 + Math.random() * 260,
+                phase: Math.random() * Math.PI * 2
+            });
+        }
+        leaves.sort((a, b) => a.t0 - b.t0);
+        const bloomDone = Math.max(...leaves.map(l => l.t0)) + 30;
+
+        // Lavender stalks along the ground, in screen space (rebuilt on resize)
+        let lavender = [];
+        function buildLavender() {
+            lavender = [];
+            const n = Math.round(W / 14);
+            for (let i = 0; i < n; i++) {
+                const h = rand(40, 95) * (mobile ? 0.7 : 1);
+                lavender.push({
+                    x: (i + rand(-0.4, 0.4)) * (W / n),
+                    h, lean: rand(-0.15, 0.15),
+                    buds: Math.round(h / 7),
+                    delay: Math.abs(i - n / 2) * 2 + rand(0, 30),
+                    phase: Math.random() * Math.PI * 2,
+                    shade: ['#9d7cc9', '#8e6bbf', '#b497d6', '#7d5ba6', '#c8a2e8'][(Math.random() * 5) | 0]
+                });
+            }
+        }
+
+        function drawLavender(w, t) {
+            for (const l of lavender) {
+                const p = Math.min(1, Math.max(0, (t - l.delay) / 60));
+                if (p <= 0) continue;
+                const sway = Math.sin(frame * 0.025 + l.phase) * 0.08 + l.lean;
+                const len = l.h * p;
+                const tipX = l.x + Math.sin(sway) * len, tipY = w.groundY - Math.cos(sway) * len;
+                ctx.strokeStyle = '#7fae6a';
+                ctx.lineWidth = 1.6;
+                ctx.beginPath();
+                ctx.moveTo(l.x, w.groundY);
+                ctx.quadraticCurveTo(l.x, w.groundY - len * 0.5, tipX, tipY);
+                ctx.stroke();
+                // buds on the top 45% of the stalk
+                ctx.fillStyle = l.shade;
+                ctx.beginPath();
+                const shown = Math.floor(l.buds * p);
+                for (let b = 0; b < shown; b++) {
+                    const k = 1 - (b / l.buds) * 0.45;
+                    const bx = l.x + Math.sin(sway) * len * k, by = w.groundY - Math.cos(sway) * len * k;
+                    const r = 2.6 * (1 - b / l.buds * 0.5) * (mobile ? 0.85 : 1);
+                    ctx.moveTo(bx - r * 0.8 + r, by);
+                    ctx.ellipse(bx - r * 0.8, by, r, r * 1.4, -0.5, 0, Math.PI * 2);
+                    ctx.moveTo(bx + r * 0.8 + r, by - r * 0.6);
+                    ctx.ellipse(bx + r * 0.8, by - r * 0.6, r, r * 1.4, 0.5, 0, Math.PI * 2);
+                }
+                ctx.fill();
+            }
+        }
+
+        // State machine: seed -> fall -> grow -> bloom -> slide -> letter
+        let stage = 'seed';
+        let frame = 0;
+        let seedY = 0;
+        let slide = 0;
+        const falling = [];
+        const sparks = [];
+
+        function world() {
+            // fit 1000x1000 world into the available area
+            const avail = mobile ? Math.min(W, H * 0.55) : Math.min(W * 0.55, H * 0.95);
+            const s = avail / 1000;
+            const baseX = mobile ? W / 2 : W / 2 - slide * W * 0.2;
+            const groundY = mobile ? H * 0.57 : H * 0.97;
+            return { s, ox: baseX - 500 * s, oy: groundY - 1000 * s, groundY };
+        }
+
+        function drawGround(w) {
+            ctx.strokeStyle = 'rgba(216, 180, 254, 0.25)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(0, w.groundY);
+            ctx.lineTo(W, w.groundY);
+            ctx.stroke();
+        }
+
+        function drawBranches(w, t) {
+            ctx.lineCap = 'round';
+            for (const b of branches) {
+                if (t < b.t0) continue;
+                const p = Math.min(1, (t - b.t0) / b.dur);
+                // partial quadratic curve via de Casteljau
+                const ax = b.x + (b.cx - b.x) * p, ay = b.y + (b.cy - b.y) * p;
+                const bx = b.cx + (b.x2 - b.cx) * p, by = b.cy + (b.y2 - b.cy) * p;
+                const ex = ax + (bx - ax) * p, ey = ay + (by - ay) * p;
+                ctx.strokeStyle = '#a86b7d';
+                ctx.lineWidth = Math.max(1, b.width * w.s);
+                ctx.beginPath();
+                ctx.moveTo(w.ox + b.x * w.s, w.oy + b.y * w.s);
+                ctx.quadraticCurveTo(w.ox + ax * w.s, w.oy + ay * w.s, w.ox + ex * w.s, w.oy + ey * w.s);
+                ctx.stroke();
+            }
+        }
+
+        function drawGlow(w, t) {
+            const k = Math.min(1, Math.max(0, (t - treeDone) / 200));
+            if (k <= 0) return;
+            const cx = w.ox + canopy.x * w.s, cy = w.oy + canopy.y * w.s, r = canopy.r * w.s * 1.5;
+            const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, r);
+            g.addColorStop(0, `rgba(236, 72, 153, ${0.28 * k})`);
+            g.addColorStop(0.5, `rgba(168, 85, 247, ${0.12 * k})`);
+            g.addColorStop(1, 'rgba(0, 0, 0, 0)');
+            ctx.fillStyle = g;
+            ctx.fillRect(cx - r, cy - r, r * 2, r * 2);
+        }
+
+        function drawLeaves(w, t) {
+            for (const l of leaves) {
+                if (t < l.t0) break;
+                const p = Math.min(1, (t - l.t0) / 30);
+                const pop = p < 1 ? 1 + Math.sin(p * Math.PI) * 0.4 : 1;
+                const sway = Math.sin(frame * 0.02 + l.phase) * 0.12;
+                drawHeart(w.ox + l.x * w.s, w.oy + l.y * w.s, l.size * w.s * p * pop, l.color, l.rot + sway, 0.92);
+            }
+        }
+
+        function spawnFalling(w) {
+            const l = leaves[(Math.random() * leaves.length) | 0];
+            falling.push({
+                x: w.ox + l.x * w.s, y: w.oy + l.y * w.s,
+                vx: rand(-0.4, 0.8), vy: rand(0.6, 1.4),
+                size: l.size * w.s, color: l.color, rot: l.rot, vr: rand(-0.03, 0.03), life: 1
+            });
+        }
+
+        function updateFalling(w) {
+            for (let i = falling.length - 1; i >= 0; i--) {
+                const f = falling[i];
+                f.x += f.vx + Math.sin(f.y * 0.02) * 0.6;
+                f.y += f.vy;
+                f.rot += f.vr;
+                if (f.y > w.groundY - 4) { f.vy = 0; f.vx = 0; f.life -= 0.004; }
+                if (f.life <= 0) { falling.splice(i, 1); continue; }
+                drawHeart(f.x, f.y, f.size, f.color, f.rot, 0.85 * f.life);
+            }
+        }
+
+        function burst(x, y) {
+            for (let i = 0; i < 40; i++) {
+                const a = Math.random() * Math.PI * 2, v = rand(1, 5);
+                sparks.push({ x, y, vx: Math.cos(a) * v, vy: Math.sin(a) * v, life: 1, color: palette[i % palette.length] });
+            }
+        }
+
+        function updateSparks() {
+            for (let i = sparks.length - 1; i >= 0; i--) {
+                const s = sparks[i];
+                s.x += s.vx; s.y += s.vy; s.vy += 0.05; s.life -= 0.02;
+                if (s.life <= 0) { sparks.splice(i, 1); continue; }
+                drawHeart(s.x, s.y, 10 * s.life, s.color, 0, s.life);
+            }
+        }
+
+        let tGrow = 0;
+        function loop() {
+            frame++;
+            ctx.clearRect(0, 0, W, H);
+            const w = world();
+            drawGround(w);
+
+            const seedX = w.ox + 500 * w.s;
+            if (stage === 'seed') {
+                const beat = 1 + Math.sin(frame * 0.12) * 0.12;
+                seedY = mobile ? H * 0.35 : H * 0.45;
+                drawHeart(seedX, seedY, 46 * beat, '#e0457b');
+            } else if (stage === 'fall') {
+                seedY += 6 + (seedY - H * 0.3) * 0.03;
+                const shrink = Math.max(14, 46 - (seedY - H * 0.35) * 0.08);
+                drawHeart(seedX, seedY, shrink, '#e0457b');
+                if (seedY >= w.groundY - 6) { burst(seedX, w.groundY); stage = 'grow'; }
+            } else {
+                tGrow += 1.4;
+                drawGlow(w, tGrow);
+                drawLavender(w, tGrow);
+                drawBranches(w, tGrow);
+                drawLeaves(w, tGrow);
+                if (stage === 'grow' && tGrow > bloomDone) {
+                    stage = 'slide';
+                }
+                if (stage === 'slide') {
+                    if (!mobile) slide = Math.min(1, slide + 0.012);
+                    if (mobile || slide >= 1) { stage = 'letter'; startLetter(); }
+                }
+                if (stage === 'letter' && frame % 18 === 0) spawnFalling(w);
+                updateFalling(w);
+            }
+            updateSparks();
+            requestAnimationFrame(loop);
+        }
+
+        function startLetter() {
+            document.getElementById('letter').classList.add('show');
+            const typed = document.getElementById('typed');
+            const letter = document.getElementById('letter');
+            let i = 0;
+            (function type() {
+                if (i < message.length) {
+                    typed.textContent += message[i++];
+                    if (mobile) letter.scrollTop = letter.scrollHeight;
+                    setTimeout(type, message[i - 1] === '\n' ? 280 : 55);
+                } else {
+                    document.getElementById('together').classList.add('show');
+                    setTimeout(() => document.getElementById('more').classList.add('show'), 1500);
+                    if (mobile) setTimeout(() => letter.scrollTo({ top: letter.scrollHeight, behavior: 'smooth' }), 1700);
+                }
+            })();
+        }
+
+        function start(e) {
+            if (stage !== 'seed') return;
+            const x = e.clientX ?? W / 2, y = e.clientY ?? H / 2;
+            const w = world();
+            if (Math.hypot(x - (w.ox + 500 * w.s), y - seedY) > 120) return;
+            stage = 'fall';
+            document.getElementById('hint').style.display = 'none';
+        }
+        canvas.addEventListener('click', start);
+        canvas.addEventListener('touchend', (e) => { const t = e.changedTouches[0]; start({ clientX: t.clientX, clientY: t.clientY }); });
+        window.addEventListener('resize', resize);
+        buildLavender();
+        loop();
+    </script>
+    <script src="stars.js"></script>
+</body>
+</html>
