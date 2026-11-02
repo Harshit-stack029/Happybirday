@@ -10,10 +10,21 @@ const greetingText = "Hey KATHYAYINI, you know what? You're the most adorable hu
 const greetingElement = document.querySelector('.greeting');
 let charIndex = 0;
 
+// The not-yet-typed part is rendered invisibly, so the greeting takes its
+// final height from the start and never pushes into the lines below it.
+const typedSpan = document.createElement('span');
+const restSpan = document.createElement('span');
+restSpan.style.visibility = 'hidden';
+greetingElement.append(typedSpan, restSpan);
+restSpan.textContent = greetingText;
+
 function typeGreeting() {
     if (charIndex < greetingText.length) {
-        greetingElement.textContent += greetingText.charAt(charIndex);
-        charIndex++;
+        // step over whole emoji (surrogate pairs) so they never show half-drawn
+        const cp = greetingText.codePointAt(charIndex);
+        charIndex += cp > 0xffff ? 2 : 1;
+        typedSpan.textContent = greetingText.slice(0, charIndex);
+        restSpan.textContent = greetingText.slice(charIndex);
         setTimeout(typeGreeting, 100);
     }
 }
