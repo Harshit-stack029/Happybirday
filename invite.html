@@ -102,7 +102,8 @@
             color: #d8b4fe;
         }
 
-        .no { white-space: nowrap; }
+        .no { white-space: nowrap; transition: left 0.25s ease, top 0.25s ease; }
+        #yes { transition: transform 0.3s ease; }
 
         .tease { min-height: 1.6em; margin-top: 1rem; color: #f9a8d4; font-size: 1rem; line-height: 1.7; }
 
@@ -281,16 +282,55 @@
         let chosen = null, place = null;
         try { chosen = localStorage.getItem('dinnerTime'); place = localStorage.getItem('dinnerPlace'); } catch (e) {}
 
-        // --- a gentle, real "not now" ---
-        $('no').addEventListener('click', () => {
-            $('choices').classList.add('hidden');
-            $('tease').innerHTML = "That's completely okay, no pressure at all. 🌸<br>I just wanted your birthday to feel special. Happy Birthday, KATHYAYINI 💜" +
-                '<br><button class="yes" id="changed" style="margin-top:1.2rem;animation:none">Actually… yes! 💜</button>';
-            $('changed').addEventListener('click', (e) => {
-                hearts(e.clientX || window.innerWidth / 2, e.clientY || window.innerHeight / 2, 40);
-                setTimeout(showPlan, 500);
-            });
-        });
+        // --- "No" is not an option 😌: it runs away, and "Yes" keeps growing ---
+        const NO_LINES = ['Are you sure? 🥺', 'Think again 😌', 'Nope, try again 😜', "Can't catch me 🏃‍♀️", 'Pleaseee 🥹', 'Just say yes 💜'];
+        let dodges = 0, lastDodge = 0;
+        function dodge(e) {
+            if (e) e.preventDefault();
+            if (Date.now() - lastDodge < 350) return; // one tap = one dodge
+            lastDodge = Date.now();
+            const no = $('no');
+            dodges++;
+            if (dodges >= NO_LINES.length + 1) {
+                // gave up running: it becomes a yes too
+                no.textContent = 'Okay fine, YES! 💜';
+                no.className = 'yes';
+                no.removeEventListener('pointerdown', dodge);
+                no.removeEventListener('mouseenter', dodge);
+                no.removeEventListener('click', dodge);
+                setTimeout(() => no.addEventListener('click', (ev) => {
+                    hearts(ev.clientX || window.innerWidth / 2, ev.clientY || window.innerHeight / 2, 40);
+                    setTimeout(showPlan, 500);
+                }), 400);
+                $('tease').textContent = 'See? Even the button agrees 😌💜';
+                return;
+            }
+            if (no.parentElement !== document.body) document.body.appendChild(no); // escape the blurred card
+            no.textContent = NO_LINES[(dodges - 1) % NO_LINES.length];
+            const r = no.getBoundingClientRect();
+            const pad = 16;
+            const yr = $('yes').getBoundingClientRect();
+            let x, y, tries = 0;
+            do { // keep away from the Yes button and from where the finger just was
+                x = pad + Math.random() * (window.innerWidth - r.width - pad * 2);
+                y = pad + Math.random() * (window.innerHeight - r.height - pad * 2);
+                tries++;
+            } while (tries < 50 && (
+                (x < yr.right + 30 && x + r.width > yr.left - 30 && y < yr.bottom + 30 && y + r.height > yr.top - 30) ||
+                (Math.abs(x - r.left) < 80 && Math.abs(y - r.top) < 60)
+            ));
+            no.style.position = 'fixed';
+            no.style.left = x + 'px';
+            no.style.top = y + 'px';
+            no.style.zIndex = 50;
+            const yesScale = Math.min(1 + dodges * 0.1, 1.5);
+            $('yes').style.transform = `scale(${yesScale})`;
+            $('tease').textContent = ['Wrong button 😜', 'Hehe, nice try 🙈', "That one's broken, use the pink one 💖", 'Only one answer works here 😌'][dodges % 4];
+        }
+        $('no').textContent = 'No 🙈';
+        $('no').addEventListener('mouseenter', dodge);
+        $('no').addEventListener('pointerdown', dodge);
+        $('no').addEventListener('click', dodge);
 
         // --- "Yes" ---
         function hearts(x, y, n = 30) {
@@ -312,6 +352,7 @@
 
         function showPlan() {
             $('ask').classList.add('hidden');
+            if ($('no')) $('no').remove();
             $('plan').classList.remove('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }

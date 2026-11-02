@@ -109,6 +109,185 @@ h1 {
     margin-top: 0.25em;
 }
 
+/* ---------- Birthday cake ---------- */
+.cake-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: -1rem 0 1.5rem;
+}
+
+.cake {
+    position: relative;
+    width: 190px;
+    height: 190px;
+    outline: none;
+}
+
+.candle {
+    position: absolute;
+    left: 50%;
+    bottom: 128px;
+    width: 14px;
+    height: 46px;
+    transform: translateX(-50%);
+    border-radius: 4px;
+    background: repeating-linear-gradient(45deg, #fdf2f8 0 6px, #f472b6 6px 12px);
+    z-index: 3;
+}
+
+.flame {
+    position: absolute;
+    left: 50%;
+    bottom: 44px;
+    width: 18px;
+    height: 30px;
+    margin-left: -9px;
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: radial-gradient(ellipse at 50% 75%, #fff 0%, #fde68a 30%, #fb923c 65%, rgba(251, 146, 60, 0) 72%);
+    box-shadow: 0 0 22px 8px rgba(253, 186, 116, 0.55), 0 0 60px 18px rgba(251, 146, 60, 0.25);
+    transform-origin: 50% 100%;
+    animation: flicker 0.12s ease-in-out infinite alternate;
+    cursor: pointer;
+    transition: opacity 0.4s, transform 0.4s;
+}
+
+.flame.out {
+    opacity: 0;
+    transform: scale(0.2) translateY(6px);
+    animation: none;
+}
+
+.smoke {
+    position: absolute;
+    left: 50%;
+    bottom: 46px;
+    width: 10px;
+    height: 10px;
+    margin-left: -5px;
+    border-radius: 50%;
+    background: rgba(200, 200, 210, 0.5);
+    filter: blur(3px);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.smoke.puff { animation: smoke 1.8s ease-out forwards; }
+
+.icing {
+    position: absolute;
+    left: 50%;
+    bottom: 112px;
+    width: 124px;
+    height: 22px;
+    transform: translateX(-50%);
+    border-radius: 12px 12px 0 0;
+    background:
+        radial-gradient(circle at 10px 12px, #fdf2f8 8px, transparent 9px) 0 0 / 20px 22px repeat-x,
+        linear-gradient(#fdf2f8, #fdf2f8) 0 0 / 100% 12px no-repeat;
+    z-index: 2;
+}
+
+.tier {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 10px 10px 6px 6px;
+    overflow: hidden;
+}
+
+.tier.top {
+    bottom: 64px;
+    width: 124px;
+    height: 50px;
+    background: linear-gradient(180deg, #c084fc, #9333ea);
+}
+
+.tier.bottom {
+    bottom: 14px;
+    width: 170px;
+    height: 54px;
+    background: linear-gradient(180deg, #f472b6, #db2777);
+}
+
+.tier.bottom::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 12px;
+    background: radial-gradient(circle at 10px 2px, #fdf2f8 8px, transparent 9px) 0 0 / 20px 14px repeat-x;
+}
+
+.sprinkles {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle, #fde68a 2px, transparent 2.5px) 6px 18px / 26px 18px,
+        radial-gradient(circle, #a5f3fc 2px, transparent 2.5px) 18px 26px / 30px 20px,
+        radial-gradient(circle, #fff 1.5px, transparent 2px) 12px 10px / 22px 16px;
+    opacity: 0.85;
+}
+
+.plate {
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 196px;
+    height: 14px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: linear-gradient(180deg, #f5f3ff, #a78bfa);
+    box-shadow: 0 8px 24px rgba(168, 85, 247, 0.45);
+}
+
+.blow-text {
+    margin-top: 1rem;
+    font-family: 'Great Vibes', cursive;
+    font-size: 2rem;
+    color: #fbcfe8;
+    text-shadow: 0 0 14px rgba(244, 114, 182, 0.6);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.blow-text small {
+    display: block;
+    font-family: 'Quicksand', sans-serif;
+    font-size: 0.85rem;
+    color: #d8b4fe;
+    opacity: 0.8;
+    margin-top: 0.2rem;
+}
+
+.blow-text.done { animation: none; }
+
+.cta-button { visibility: hidden; }
+.cta-button.ready { visibility: visible; }
+
+.confetti {
+    position: fixed;
+    width: 8px;
+    height: 14px;
+    pointer-events: none;
+    z-index: 5;
+}
+
+@keyframes flicker {
+    from { transform: rotate(-3deg) scaleY(1); }
+    to { transform: rotate(3deg) scaleY(1.08); }
+}
+
+@keyframes smoke {
+    0% { opacity: 0.8; transform: translate(0, 0) scale(1); }
+    100% { opacity: 0; transform: translate(8px, -70px) scale(4); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.05); opacity: 0.85; }
+}
+
 @keyframes shimmer {
     to { background-position: 300% 0; }
 }
@@ -125,6 +304,10 @@ h1 {
     .container { padding: 0 16px; }
     .greeting { font-size: 1.2rem; }
     .cta-button { font-size: 1rem; }
+    h1 { margin-bottom: 1.2rem; }
+    .greeting { margin-bottom: 2.5rem; }
+    .cake-wrap { margin: -1.2rem 0 1rem; transform: scale(0.85); }
+    .blow-text { font-size: 1.6rem; }
 }
 @media (hover: none) {
     .cursor { display: none; }

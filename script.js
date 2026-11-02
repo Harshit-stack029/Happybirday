@@ -50,14 +50,6 @@ window.addEventListener('load', () => {
         ease: "bounce.out"
     });
 
-    // Button animation
-    gsap.to('.cta-button', {
-        opacity: 1,
-        duration: 1,
-        y: -20,
-        ease: "back.out"
-    });
-
     // Start typing effect
     typeGreeting();
 
@@ -93,3 +85,110 @@ window.addEventListener('load', () => {
             });
         });
     });
+
+// ---------- Cake: blow out the candle ----------
+const flame = document.getElementById('flame');
+const smoke = document.getElementById('smoke');
+const blowText = document.getElementById('blowText');
+const cakeEl = document.getElementById('cake');
+let candleOut = false;
+
+function blowOut() {
+    if (candleOut) return;
+    candleOut = true;
+    flame.classList.add('out');
+    smoke.classList.add('puff');
+    stopMic();
+
+    blowText.classList.add('done');
+    blowText.innerHTML = 'Yayyy! Happy Birthday, my love 🎉💖';
+    gsap.fromTo(blowText, { scale: 0.6, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.8, ease: 'back.out' });
+    gsap.fromTo(cakeEl, { rotation: -4 }, { rotation: 0, duration: 0.8, ease: 'elastic.out(1, 0.3)' });
+
+    burstConfetti();
+
+    const btn = document.querySelector('.cta-button');
+    btn.classList.add('ready');
+    gsap.to(btn, { opacity: 1, y: -20, duration: 1, delay: 0.8, ease: 'back.out' });
+}
+
+function burstConfetti() {
+    const colors = ['#f472b6', '#c084fc', '#fde68a', '#a5f3fc', '#fbcfe8', '#ffffff'];
+    const rect = cakeEl.getBoundingClientRect();
+    const cx = rect.left + rect.width / 2;
+    const cy = rect.top + rect.height * 0.3;
+    for (let i = 0; i < 90; i++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.background = colors[i % colors.length];
+        c.style.left = cx + 'px';
+        c.style.top = cy + 'px';
+        c.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        document.body.appendChild(c);
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 120 + Math.random() * 260;
+        gsap.to(c, {
+            x: Math.cos(angle) * dist,
+            y: Math.sin(angle) * dist - 80,
+            rotation: Math.random() * 720,
+            duration: 1.2 + Math.random(),
+            ease: 'power2.out'
+        });
+        gsap.to(c, {
+            y: '+=' + (300 + Math.random() * 300),
+            opacity: 0,
+            duration: 1.6,
+            delay: 1.1,
+            ease: 'power1.in',
+            onComplete: () => c.remove()
+        });
+    }
+}
+
+// Tap / click / keyboard
+flame.addEventListener('click', blowOut);
+cakeEl.addEventListener('click', blowOut);
+cakeEl.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); blowOut(); }
+});
+
+// Optional: blow into the microphone
+let micStream = null;
+let micCtx = null;
+async function startMic() {
+    if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) return;
+    try {
+        micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        micCtx = new (window.AudioContext || window.webkitAudioContext)();
+        const analyser = micCtx.createAnalyser();
+        analyser.fftSize = 512;
+        micCtx.createMediaStreamSource(micStream).connect(analyser);
+        const data = new Uint8Array(analyser.fftSize);
+        let loudFrames = 0;
+        (function listen() {
+            if (candleOut) return;
+            analyser.getByteTimeDomainData(data);
+            let sum = 0;
+            for (let i = 0; i < data.length; i++) {
+                const v = (data[i] - 128) / 128;
+                sum += v * v;
+            }
+            const rms = Math.sqrt(sum / data.length);
+            loudFrames = rms > 0.18 ? loudFrames + 1 : 0;
+            if (loudFrames > 6) blowOut();
+            else requestAnimationFrame(listen);
+        })();
+    } catch (err) {
+        // Mic denied or unavailable: tapping still works
+    }
+}
+function stopMic() {
+    if (micStream) micStream.getTracks().forEach(t => t.stop());
+    if (micCtx) micCtx.close();
+    micStream = null;
+    micCtx = null;
+}
+const micHint = blowText.querySelector('small');
+micHint.addEventListener('click', (e) => { e.stopPropagation(); startMic(); });
+micHint.style.cursor = 'pointer';
+micHint.style.textDecoration = 'underline dotted';
